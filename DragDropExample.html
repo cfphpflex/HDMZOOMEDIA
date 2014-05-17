@@ -1,0 +1,361 @@
+
+
+	
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>JavaScript Drag and Drop Tutorial</title>
+	<meta name="robots" content="follow" />
+	<meta name="robots" content="all" />
+	<meta name="revisit-after" content="2 days" />
+	<link href="../css/main_new.css" type="text/css" rel="stylesheet" />
+	<style type="text/css">
+.drag {border: 0px solid black; background-color: ebebeb; position: relative; padding: 0.5em; margin: 0 0 0.5em 1.5em; cursor: move;}
+th, td {text-align: left; padding-right: 1em;}
+table {margin: 0 0 0.4em 1.3em; border: 1px solid rgb(240, 240, 240);}
+	</style>
+	
+	
+	
+	 
+	
+	
+	
+	
+<style type="text/css">
+
+.container{
+display:block;
+float:left;
+min-width:100%;
+resize:both;
+overflow:auto;
+height:100%;
+border:1px solid black;
+background:ffff;
+}
+ 
+nav{
+   display: -webkit-box;
+   display: -moz-box;
+   display: box;
+   -webkit-box-orient:horizontal;
+   -moz-box-orient:horizontal;
+   box-orient:horizontal;
+   border:2px solid #333;
+   -webkit-border-radius:6px;
+   -moz-border-radius:6px;
+   -o-border-radius:6px;
+   border-radius:8px;
+   width: 1200px;
+margin:0px auto;
+background:#ebebeb;
+height:150px;
+}
+ 
+nav a{
+    display:block;
+    color:#333;
+    padding:10px;
+   -webkit-box-flex:1;
+    -moz-box-flex:1;
+    box-flex:1;
+    text-align:center;
+    text-decoration:none;
+    -webkit-transition:all .4s linear;
+-moz-transition:all .4s linear;
+-o-transition:all .4s linear;
+transition:all .4s linear;
+}
+ 
+a:hover {
+  background-color: rgba(0,0,0,.2);
+}
+ 
+a:active {
+  background-color: #333;
+  -webkit-box-shadow: inset 0 2px 8px hsla( 0, 0%, 0%, 0.6 );
+     -moz-box-shadow: inset 0 2px 8px hsla( 0, 0%, 0%, 0.6 );
+       -o-box-shadow: inset 0 2px 8px hsla( 0, 0%, 0%, 0.6 );
+          box-shadow: inset 0 2px 8px hsla( 0, 0%, 0%, 0.6 );
+    color:white;
+}
+ 
+p{
+    margin:20px;
+}
+</style>
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.1/build/reset/reset-min.css"/>    
+  
+ 
+  <script type="text/javascript" src="apis/camera.js"></script>
+  
+ 	
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript" src="jquery/jquery-1.7.1.min.js"></script> 
+<script type="text/javascript" src="jquery/jquery.mobile-1.1.1.min.js"></script>
+        
+     
+
+<style type="text/css">
+	#div0 
+	{float:left; width:800px; height:55px; margin:10px;padding:10px;border:1px solid #aaaaaa; }
+</style>
+
+
+
+<style type="text/css">
+	  #div1, #div2,, #div3,, #div4
+	{float:right; width:100px; height:35px; margin:10px;padding:10px;border:1px solid #aaaaaa;}
+</style>
+
+
+
+<script type="text/javascript">
+
+
+function handleDrop(e) {
+  // this/e.target is current target element.
+
+  if (e.stopPropagation) {
+    e.stopPropagation(); // Stops some browsers from redirecting.
+  }
+
+  // Don't do anything if dropping the same column we're dragging.
+  if (dragSrcEl != this) {
+    // Set the source column's HTML to the HTML of the column we dropped on.
+    dragSrcEl.innerHTML = this.innerHTML;
+    this.innerHTML = e.dataTransfer.getData('text/html');
+  }
+
+  return false;
+}
+
+
+function allowDrop(ev)
+{
+ev.preventDefault();
+}
+
+function drag(ev)
+{
+ev.dataTransfer.setData("Text",ev.target.id);
+}
+
+function drop(ev)
+{
+ev.preventDefault();
+var data=ev.dataTransfer.getData("Text");
+ev.target.appendChild(document.getElementById(data));
+}
+</script>
+
+
+ 
+<style type="text/css">
+/* Prevent the text contents of draggable elements from being selectable. */
+[draggable] {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.column {
+  height: 150px;
+  width: 150px;
+  float: left;
+  border: 2px solid #666666;
+  background-color: #ccc;
+  margin-right: 5px;
+  -webkit-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 3px #000;
+  -ms-box-shadow: inset 0 0 3px #000;
+  box-shadow: inset 0 0 3px #000;
+  text-align: center;
+  cursor: move;
+}
+.column header {
+  color: #fff;
+  text-shadow: #000 0 1px;
+  box-shadow: 5px;
+  padding: 5px;
+  background: -moz-linear-gradient(left center, rgb(0,0,0), rgb(79,79,79), rgb(21,21,21));
+  background: -webkit-gradient(linear, left top, right top,
+                               color-stop(0, rgb(0,0,0)),
+                               color-stop(0.50, rgb(79,79,79)),
+                               color-stop(1, rgb(21,21,21)));
+  background: -webkit-linear-gradient(left center, rgb(0,0,0), rgb(79,79,79), rgb(21,21,21));
+  background: -ms-linear-gradient(left center, rgb(0,0,0), rgb(79,79,79), rgb(21,21,21));
+  border-bottom: 1px solid #ddd;
+  -webkit-border-top-left-radius: 10px;
+  -moz-border-radius-topleft: 10px;
+  -ms-border-radius-topleft: 10px;
+  border-top-left-radius: 10px;
+  -webkit-border-top-right-radius: 10px;
+  -ms-border-top-right-radius: 10px;
+  -moz-border-radius-topright: 10px;
+  border-top-right-radius: 10px;
+}
+</style>
+
+ 
+
+
+
+
+</head>
+
+
+
+<body   class="container">
+ 
+ 
+ 
+ 
+    <nav>
+ 
+ 
+ 
+  		<div class="nav">
+        	 	<img  class="drag"   src="img/webdesign.png"   alt="drag image"  >   
+        		<img   class="drag" src="img/illustrate.png"   alt="drag image"  > 
+          		<img   class="drag" src="img/motiongraphics.png"  alt="drag image"   >  
+        		<img   class="drag" src="img/photomanip.png" alt="drag image"  >  
+       </div>
+  
+ 
+ 	</nav>
+ 
+ 
+   
+	<br>
+		  
+	<strong>Directions:</strong> Click, Drag and Move each Image to New positiong: <pre id="debug"> </pre>
+		
+	 	
+	<script language="JavaScript" type="text/javascript">
+<!--
+
+// this is simply a shortcut for the eyes and fingers
+function $(id)
+{
+	return document.getElementById(id);
+}
+
+var _startX = 0;			// mouse starting positions
+var _startY = 0;
+var _offsetX = 0;			// current element offset
+var _offsetY = 0;
+var _dragElement;			// needs to be passed from OnMouseDown to OnMouseMove
+var _oldZIndex = 0;			// we temporarily increase the z-index during drag
+var _debug = $('debug');	// makes life easier
+
+
+InitDragDrop();
+
+function InitDragDrop()
+{
+	document.onmousedown = OnMouseDown;
+	document.onmouseup = OnMouseUp;
+}
+
+function OnMouseDown(e)
+{
+	// IE is retarded and doesn't pass the event object
+	if (e == null) 
+		e = window.event; 
+	
+	// IE uses srcElement, others use target
+	var target = e.target != null ? e.target : e.srcElement;
+	
+	_debug.innerHTML = target.className == 'drag' 
+		? 'draggable element clicked' 
+		: 'NON-draggable element clicked';
+
+	// for IE, left click == 1
+	// for Firefox, left click == 0
+	if ((e.button == 1 && window.event != null || 
+		e.button == 0) && 
+		target.className == 'drag')
+	{
+		// grab the mouse position
+		_startX = e.clientX;
+		_startY = e.clientY;
+		
+		// grab the clicked element's position
+		_offsetX = ExtractNumber(target.style.left);
+		_offsetY = ExtractNumber(target.style.top);
+		
+		// bring the clicked element to the front while it is being dragged
+		_oldZIndex = target.style.zIndex;
+		target.style.zIndex = 10000;
+		
+		// we need to access the element in OnMouseMove
+		_dragElement = target;
+
+		// tell our code to start moving the element with the mouse
+		document.onmousemove = OnMouseMove;
+		
+		// cancel out any text selections
+		document.body.focus();
+		
+		// prevent text selection in IE
+		document.onselectstart = function () { return false; };
+		// prevent IE from trying to drag an image
+		target.ondragstart = function() { return false; };
+		
+		// prevent text selection (except IE)
+		return false;
+	}
+}
+
+function ExtractNumber(value)
+{
+	var n = parseInt(value);
+	
+	return n == null || isNaN(n) ? 0 : n;
+}
+
+function OnMouseMove(e)
+{
+	if (e == null) 
+		var e = window.event; 
+
+	// this is the actual "drag code"
+	_dragElement.style.left = (_offsetX + e.clientX - _startX) + 'px';
+	_dragElement.style.top = (_offsetY + e.clientY - _startY) + 'px';
+	
+	_debug.innerHTML = '(' + _dragElement.style.left + ', ' + _dragElement.style.top + ')';	
+}
+
+function OnMouseUp(e)
+{
+	if (_dragElement != null)
+	{
+		_dragElement.style.zIndex = _oldZIndex;
+
+		// we're done with these events until the next OnMouseDown
+		document.onmousemove = null;
+		document.onselectstart = null;
+		_dragElement.ondragstart = null;
+
+		// this is how we know we're not dragging
+		_dragElement = null;
+		
+		_debug.innerHTML = 'mouse up';
+	}
+}
+//-->
+	</script>
+		
+	</body>
+
+</html>
